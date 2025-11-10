@@ -1,0 +1,17 @@
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Python cache files
+__pycache__/
+*.pyc
+
+# System-specific files (Mac & Windows)
+.DS_Store
+Thumbs.db
+
+# Future-proofing for V2 (API Keys)
+.env
+api_keys.txt
+config.ini

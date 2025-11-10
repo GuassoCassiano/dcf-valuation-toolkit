@@ -64,6 +64,7 @@ if __name__ == "__main__":
 
     # --- Get User Inputs ---
     print("--- Please enter company data ---")
+    ticker = input("Company Ticker (e.g., AAPL): ")
     OCF = float(input("Operating Cash Flow (in millions): "))
     CapEx = float(input("Capital Expenditures (in millions): "))
 
@@ -101,3 +102,59 @@ if __name__ == "__main__":
     print("\n--- Final Valuation ---")
     print(f"Calculated Intrinsic Value per Share: ${intrinsic_value_per_share:,.2f}")
     print("-----------------------")
+
+# ------------------- Save data -------------------
+    # 1. Import the library
+    import sqlite3
+    import datetime # To get a timestamp
+    
+    print("\n--- Saving results to database ---")
+    
+    try:
+        # 2. Connect to the database file (it will be created if it doesn't exist)
+        conn = sqlite3.connect('valuations.db')
+        cursor = conn.cursor() # 'cursor' is like your mouse, it executes commands
+        
+        # 3. CREATE TABLE (but only if it doesn't exist already)
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS dcf_results (
+                ticker TEXT,
+                run_date TEXT,
+                ocf REAL,
+                capex REAL,
+                growth_rate REAL,
+                discount_rate REAL,
+                perp_growth_rate REAL,
+                shares_outstanding REAL,
+                intrinsic_value REAL
+            )
+        ''')
+        
+        # 4. INSERT INTO: Save your variables
+        # We use '?' as placeholders to prevent SQL injection (a security risk)
+        # This is the safest way to insert variables.
+        today = str(datetime.date.today())
+        data_to_insert = (
+            ticker,
+            today,
+            OCF,
+            CapEx,
+            growth_rate,
+            discount_rate,
+            perpetual_growth_rate,
+            shares_outstanding,
+            intrinsic_value_per_share
+        )
+        
+        cursor.execute('''
+            INSERT INTO dcf_results VALUES (?,?, ?, ?, ?, ?, ?, ?, ?)
+        ''', data_to_insert)
+        
+        # 5. Commit (save) the changes and close the connection
+        conn.commit()
+        conn.close()
+        
+        print("Results successfully saved to valuations.db")
+        
+    except sqlite3.Error as e:
+        print(f"An error occurred: {e}")

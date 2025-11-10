@@ -20,8 +20,10 @@ The "Minimum Viable Product" for this script will:
 * I learned to seperate logic from execution
 * I practiced using standard python formatting (PEP 8 snake_case)
 * I learned how to use git and version control
+* This was my first time using SQL so I learned the basics of databases/tables
+* Lastly I learned some of the safety protocols associated with SQL (SQL injections) and git (.gitignore)
 
-## Reflections & Lessons Learned
+## Reflections & Lessons
 * This was a great first project to transition from MATLAB to Python. The core logic was straightforward, allowing me to focus on learning the new syntax for functions, f-strings, and lists.
 * This project marked the start of me learning proper version control. I practiced the full `git add` and `git commit` workflow to build a clean project history.
 * I learned the importance of separating "tool" functions (like `calculate_present_value`) from the "execution" logic (the `if __name__ == "__main__":` block).
